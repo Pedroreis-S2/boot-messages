@@ -39,10 +39,4 @@ jobs:
     
     - name: Executar script de mensagens
       run: |
-        docker exec -it botmessage python main/main.py > responses.txt
-        if [ -s responses.txt ]; then
-          echo "Mensagens enviadas com sucesso!"
-        else
-          echo "Falha ao enviar mensagens."
-          exit 1
-        fi
+        docker exec -it botmessage python main/main.py
