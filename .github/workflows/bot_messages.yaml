@@ -18,7 +18,7 @@ jobs:
 
     - name: Iniciar Container
       run: |
-        docker-compose -f .containerbot/docker-compose.yml up -d
+        docker-compose -f .containerbot/docker-compose.yml up --build -d
 
     - name: Setar variaveis de ambiente no container
       env:
