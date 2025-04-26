@@ -35,7 +35,7 @@ jobs:
 
     - name: Iniciar Container
       run: |
-        docker-compose -f .containerbot/docker-compose.yml up --build -d
+        docker compose -f .containerbot/docker-compose.yml up --build -d
     
     - name: Executar script de mensagens
       run: |
