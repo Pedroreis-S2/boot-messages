@@ -1,9 +1,20 @@
-import os
-from dotenv import load_dotenv
+import os, requests
 
 class ApiManager():
+    base_url = os.environ.get('URLINTEGRACAO')
+    token = os.environ.get('TOKEN')
+
+    def __init__(self, destinatario, mensagem: str = None):
+        self.numero_envio = destinatario
+        self.mensagem = mensagem
+        pass
     
-    @classmethod
-    def coleta_numero_api(cls, nome_chave):
-        load_dotenv()
-        return os.getenv(nome_chave)
+    def check_connection(self):
+        url = f"{self.base_url}/health"
+        headers = {'Authorization': self.token}
+        request = requests.get(url, headers=headers)
+        print(request)
+        
+    
+
+        

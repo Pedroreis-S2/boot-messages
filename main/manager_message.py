@@ -13,13 +13,10 @@ class DiaSemana:
 class Destinatario():
     nome     = None,
     numero   = None,
-    mensagem = "",
 
-    def __init__(self, nome = None, numero = "", mensagem = None, data_encontro = DiaSemana.DOMINGO):
+    def __init__(self, nome = None, numero = ""):
         self.nome           = nome,
         self.numero         = numero,
-        self.mensagem       = mensagem
-        self.data_encontro  = data_encontro
 
 class Mensagem():
     destinatario = Destinatario()   
