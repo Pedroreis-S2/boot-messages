@@ -11,48 +11,34 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v3
 
-    - name: Configurar o Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: instalar docker
+    - name: Instalar o Docker
       run: |
         sudo apt-get update
-        sudo apt-get install docker-compose -y
+        sudo apt-get install -y docker.io docker-compose
+      
+    - name: Criar os environments
+      env:
+        URL:    ${{ secrets.URL }}
+        TOKEN:  ${{ secrets.TOKEN }}
+        NOME:   ${{ secrets.NOME }}
+        NUMERO: ${{ secrets.NUMERO }}
+      run: |
+        mkdir .config/.env
+        echo "URL=${{ secrets.URL }}" >> .config/.env
+        echo "TOKEN=${{ secrets.TOKEN }}" >> .config/.env
+        echo "NOME=${{ secrets.NOME }}" >> .config/.env
+        echo "NUMERO=${{ secrets.NUMERO }}" >> .config/.env
 
     - name: Iniciar Container
-      env:
-        NOME: ${{ secrets.NOME }}
-        NUMEROENVIO: ${{ secrets.NUMEROENVIO }}
-        TOKEN: ${{ secrets.TOKEN }}
-        URL: ${{ secrets.URL }} 
       run: |
-        docker-compose -f .containerbot/docker-compose.yml up --build -d #erro por nao achar o arquivo .env ja que esta em gitignore
-        docker exec -it botmessage bash -c "echo 'NOME=$NOME' >> /container/.config/.env"
-        docker exec -it botmessage bash -c "echo 'NUMEROENVIO=$NUMEROENVIO' >> /container/.config/.env"
-
-
-    - name: Setar variaveis de ambiente no container
-      env:
-        NOME: ${{ secrets.NOME }}
-        NUMEROENVIO: ${{ secrets.NUMEROENVIO }}
-        TOKEN: ${{ secrets.TOKEN }}
-        URL: ${{ secrets.URL }}
-
+        docker-compose -f .containerbot/docker-compose.yml up --build -d
+    
+    - name: Executar script de mensagens
       run: |
-        docker exec -it botmessage bash -c "echo 'NOME=$NOME' >> /container/.config/.env"
-        docker exec -it botmessage bash -c "echo 'NUMEROENVIO=$NUMEROENVIO' >> /container/.config/.env"
-        docker exec -it botmessage bash -c "echo 'TOKEN=$TOKEN' >> /container/.config/.env"
-        docker exec -it botmessage bash -c "echo 'URL=$URL' >> /container/.config/.env"
-
-    - name: Executar Script
-      run: |
-        $result = docker exec -it botmessage python main/main.py
-        echo "Resultado do script: $result"
-        if ($result -eq 0) {
-          echo "Script executado com sucesso."
-        } else {
-          echo "Erro ao executar o script."
-          exit 1
-        }
+        $result=docker exec -it botmessage python main/main.py
+        echo "result: $result"
+        if [ "$result" == "OK" ]; then
+          echo "Mensagem enviada com sucesso!"
+        else
+          echo "Erro ao enviar mensagem."
+        fi
