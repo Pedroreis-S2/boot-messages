@@ -6,7 +6,7 @@ services:
       context: ../
       dockerfile: ./.containerbot/Dockerfile
     volumes:
-      - .:/app:z
+      - ../:/container:z
     env_file:
       - ../.config/.env
     ports:

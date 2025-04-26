@@ -16,11 +16,30 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Instalar dependências
+    - name: Iniciar Container
       run: |
-        python -m pip install --upgrade pip
-        pip install python-dotenv
+        docker-compose -f .containerbot/docker-compose.yml up -d
 
-    - name: Executar script de mensagens
+    - name: Setar variaveis de ambiente no container
+      env:
+        NOME: ${{ secrets.NOME }}
+        NUMEROENVIO: ${{ secrets.NUMEROENVIO }}
+        TOKEN: ${{ secrets.TOKEN }}
+        URL: ${{ secrets.URL }}
+
       run: |
-        python main/main.py
+        docker exec -it botmessage bash -c "echo 'NOME=$NOME' >> /container/.config/.env"
+        docker exec -it botmessage bash -c "echo 'NUMEROENVIO=$NUMEROENVIO' >> /container/.config/.env"
+        docker exec -it botmessage bash -c "echo 'TOKEN=$TOKEN' >> /container/.config/.env"
+        docker exec -it botmessage bash -c "echo 'URL=$URL' >> /container/.config/.env"
+
+    - name: Executar Script
+      run: |
+        $result = docker exec -it botmessage python main/main.py
+        echo "Resultado do script: $result"
+        if ($result -eq 0) {
+          echo "Script executado com sucesso."
+        } else {
+          echo "Erro ao executar o script."
+          exit 1
+        }

@@ -1,36 +1,12 @@
 import datetime
-
-class DiaSemana:
-    # Definindo constantes para os dias da semana
-    SEGUNDA = 0
-    TERCA = 1
-    QUARTA = 2
-    QUINTA = 3
-    SEXTA = 4
-    SABADO = 5
-    DOMINGO = 6
-
+import os
 class Destinatario():
-    nome     = None,
-    numero   = None,
+    nome = os.getenv('NOMEENVIO')
+    numero = os.getenv('NUMEROENVIO')
+    pass
 
-    def __init__(self, nome = None, numero = ""):
-        self.nome           = nome,
-        self.numero         = numero,
-
-class Mensagem():
-    destinatario = Destinatario()   
-
-    def days_counter(self):
-        agora = datetime.datetime.now().weekday()
-        dias_restantes = self.destinatario.data_encontro - agora
-
-        if dias_restantes < 0:
-            dias_restantes += 7
-
-        return dias_restantes
-    
     def build_message(self):
-        dias_restantes = self.days_counter()
-        return f"Faltam {dias_restantes} dias para te encontrar"
+        data = (datetime.datetime.now() - datetime.timedelta(hours=3)).strftime("%d/%m/%Y")
+        mensagem = f"Bom dia {self.nome},\n\nHoje é {data} e você está recebendo esta mensagem de teste.\n\nAtenciosamente,\nAmor da sua vida" 
+        return mensagem
 
