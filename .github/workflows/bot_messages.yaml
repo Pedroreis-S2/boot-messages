@@ -33,18 +33,16 @@ jobs:
           echo "NUMEROENVIO=${{ secrets.NUMERO }}"
         } > .config/.env
 
-        cat .config/.env
-
-    # - name: Iniciar Container
-    #   run: |
-    #     docker compose -f .containerbot/docker-compose.yml up --build -d
+    - name: Iniciar Container
+      run: |
+        docker compose -f .containerbot/docker-compose.yml up --build -d
     
-    # - name: Executar script de mensagens
-    #   run: |
-    #     docker exec botmessage python main/main.py > result.log
-    #     if grep -q "Erro" result.log; then
-    #       echo "Erro ao enviar mensagens"
-    #       exit 1
-    #     else
-    #       echo "Mensagens enviadas com sucesso"
-    #     fi
+    - name: Executar script de mensagens
+      run: |
+        docker exec botmessage python main/main.py > result.log
+        if grep -q "Erro" result.log; then
+          echo "Erro ao enviar mensagens"
+          exit 1
+        else
+          echo "Mensagens enviadas com sucesso"
+        fi

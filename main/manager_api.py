@@ -23,10 +23,6 @@ class ApiManager():
         return True
     
     def send_message(self):
-
-        if True:
-            print(self.mensagem)
-            return True
         url = f"{self.base_url}/messages/text"
         headers = {'Authorization': self.token}
 
