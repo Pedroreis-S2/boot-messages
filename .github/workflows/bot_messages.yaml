@@ -22,8 +22,16 @@ jobs:
         sudo apt-get install docker-compose -y
 
     - name: Iniciar Container
+      env:
+        NOME: ${{ secrets.NOME }}
+        NUMEROENVIO: ${{ secrets.NUMEROENVIO }}
+        TOKEN: ${{ secrets.TOKEN }}
+        URL: ${{ secrets.URL }} 
       run: |
-        docker-compose -f .containerbot/docker-compose.yml up --build -d
+        docker-compose -f .containerbot/docker-compose.yml up --build -d #erro por nao achar o arquivo .env ja que esta em gitignore
+        docker exec -it botmessage bash -c "echo 'NOME=$NOME' >> /container/.config/.env"
+        docker exec -it botmessage bash -c "echo 'NUMEROENVIO=$NUMEROENVIO' >> /container/.config/.env"
+
 
     - name: Setar variaveis de ambiente no container
       env:
