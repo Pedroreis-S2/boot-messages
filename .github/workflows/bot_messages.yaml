@@ -33,8 +33,7 @@ jobs:
           echo "NUMEROENVIO=${{ secrets.NUMERO }}"
         } > .config/.env
 
-        $test = cat .config/.env
-        echo "FILE ENVIRONMENT: $test"
+        cat .config/.env
 
     # - name: Iniciar Container
     #   run: |
