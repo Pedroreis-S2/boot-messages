@@ -24,17 +24,14 @@ jobs:
         sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       
     - name: Criar os environments
-      env:
-        URL:    ${{ secrets.URL }}
-        TOKEN:  ${{ secrets.TOKEN }}
-        NOME:   ${{ secrets.NOME }}
-        NUMERO: ${{ secrets.NUMERO }}
       run: |
-        mkdir .config/.env
-        echo "URL=${{ secrets.URL }}" >> .config/.env
-        echo "TOKEN=${{ secrets.TOKEN }}" >> .config/.env
-        echo "NOME=${{ secrets.NOME }}" >> .config/.env
-        echo "NUMERO=${{ secrets.NUMERO }}" >> .config/.env
+        mkdir -p .config
+        {
+          echo "URL=${{ secrets.URL }}"
+          echo "TOKEN=${{ secrets.TOKEN }}"
+          echo "NOME=${{ secrets.NOME }}"
+          echo "NUMERO=${{ secrets.NUMERO }}"
+        } > .config/.env
 
     - name: Iniciar Container
       run: |
