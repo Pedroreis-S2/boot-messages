@@ -1,0 +1,12 @@
+FROM python:3.9-slim-bullseye AS build
+
+WORKDIR /container
+
+RUN ls
+
+COPY . /container
+
+RUN echo "Installing dependencies..." \ 
+    && ls \
+    && pip install --upgrade pip \
+    && pip install --no-cache-dir -r dependencias.txt
