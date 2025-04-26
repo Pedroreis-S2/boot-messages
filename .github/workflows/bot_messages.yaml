@@ -39,4 +39,10 @@ jobs:
     
     - name: Executar script de mensagens
       run: |
-        docker exec -it botmessage python main/main.py
+        docker exec botmessage python main/main.py > result.log
+        if grep -q "Erro" result.log; then
+          echo "Erro ao enviar mensagens"
+          exit 1
+        else
+          echo "Mensagens enviadas com sucesso"
+        fi
