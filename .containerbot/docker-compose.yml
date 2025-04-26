@@ -9,8 +9,6 @@ services:
       - ../:/container:z
     env_file:
       - ../.config/.env
-    ports:
-      - "8080:8080"
     command: sleep infinity
 
     # docker compose -f .containerbot/docker-compose.yml down --rmi all --volumes
