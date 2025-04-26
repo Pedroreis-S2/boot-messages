@@ -29,7 +29,7 @@ jobs:
         {
           echo "URLINTEGRACAO=${{ secrets.URL }}"
           echo "TOKEN=${{ secrets.TOKEN }}"
-          echo "NOMEENVIO=${{ secrets.NOME }}"
+          echo "NOMEENVIO=${{ vars.NOME }}"
           echo "NUMEROENVIO=${{ secrets.NUMERO }}"
         } > .config/.env
 
