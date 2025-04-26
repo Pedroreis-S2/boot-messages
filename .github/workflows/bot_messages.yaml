@@ -33,6 +33,8 @@ jobs:
           echo "NUMEROENVIO=${{ secrets.NUMERO }}"
         } > .config/.env
 
+        echo cat .config/.env
+
     - name: Iniciar Container
       run: |
         docker compose -f .containerbot/docker-compose.yml up --build -d
