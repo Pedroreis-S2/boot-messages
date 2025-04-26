@@ -1,0 +1,17 @@
+services:
+  botmessages:
+    container_name: botmessage
+    image: botmessage:latest
+    build:
+      context: ../
+      dockerfile: ./.containerbot/Dockerfile
+    volumes:
+      - .:/app
+    env_file:
+      - ../.config/.env
+    ports:
+      - "8080:8080"
+    command: sleep infinity
+
+    # docker compose -f .containerbot/docker-compose.yml down --rmi all --volumes
+    # docker compose -f .containerbot/docker-compose.yml up --build -d
