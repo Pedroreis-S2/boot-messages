@@ -16,6 +16,11 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: instalar docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose -y
+
     - name: Iniciar Container
       run: |
         docker-compose -f .containerbot/docker-compose.yml up --build -d
